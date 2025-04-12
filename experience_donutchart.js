@@ -3,10 +3,11 @@ document.addEventListener("DOMContentLoaded", () => {
       { label: "Data Science", years: 4, color: "#f8b195" },
       { label: "Data Analysis", years: 8, color: "#f67280" },
       { label: "Data Engineering", years: 2, color: "#c06c84" },
+      { label: "AI Engineering", years: 1, color: "#a29bfe" },
       { label: "Machine Learning", years: 3, color: "#6c5b7b" },
       { label: "Business Intelligence", years: 8, color: "#355c7d" },
       { label: "Business Analysis", years: 14, color: "#99b898" },
-      { label: "Project Management", years: 14, color: "#f0c987" },
+      { label: "Project Management", years: 14, color: "#f0c987" },  
     ];
 
     const total = topics.reduce((sum, t) => sum + t.years, 0);
