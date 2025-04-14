@@ -6,7 +6,7 @@ body {
   color: #000;
   margin: 0;
   padding: 0;
-  padding-top: 350px;
+  padding-top: 365px; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,9 +42,6 @@ header img {
 }
 
 section img {
-  /*max-width: 100%;
-  height: auto;*/
-
   width: 125px;
   height: 125px;
 
@@ -63,7 +60,7 @@ section img {
 .intro p {
   font-size: 1.5em;
   color: #555;
-  margin: 0;
+  margin: 10px;
 }
 
 nav ul {
@@ -89,7 +86,7 @@ nav li a:hover {
   height: 10px;
   width: 100%;
   position: fixed;
-  top: 407px;
+  top: 430px;
   left: 0;
   z-index: 999;
   background-size: 400% 100%;
@@ -122,7 +119,7 @@ section {
   border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: center;
-  scroll-margin-top: 420px;
+  scroll-margin-top: 420px; 
 }
 
 .section-content {
@@ -179,11 +176,11 @@ a:hover {
 
 footer {
   background-color: #ffffff;
-  padding: 40px 20px;
+  padding: 30px 20px; /* 40px 20px */
   text-align: center;
   font-size: 0.9em;
   color: #888;
-  margin-top: 40px;
+  margin-top: -1px; /* 40 */
   width: 100%;
 }
 
@@ -263,10 +260,12 @@ html {
     padding: 0;
     margin-top: 30px;
     display: grid;
-    grid-template-columns: repeat(2, auto);
+    /* grid-template-columns: repeat(2, auto); */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
     gap: 10px;
     font-size: 0.95em;
     justify-content: center;
+
   }
   
   .bar-legend li {
@@ -312,9 +311,10 @@ html {
 .donut-legend {
   list-style: none;
   padding: 0;
-  margin-top: 20px;
+  margin-top: 55px;
   display: grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+  /* grid-template-columns: repeat(2, auto); */
   gap: 10px;
   font-size: 0.95em;
 }
@@ -344,6 +344,19 @@ html {
   z-index: 1000;
   opacity: 0;
   transition: opacity 0.2s ease;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2em;
+  cursor: pointer;
+  color: #333;
+  z-index: 1001;
+  position: absolute;
+  top: 30px;
+  right: 30px;
 }
 
 /* --- Responsive --- */
@@ -378,6 +391,7 @@ html {
     margin: 10px 0 0 0;
   }
 
+  /* Test resizing font for mobile */
   .intro h1 {
     font-size: 2em;
   }
@@ -390,11 +404,73 @@ html {
     font-size: 1.8em;
     text-align: center;
   }
+/* ---------------- */
 
   section {
     padding: 60px 15px;
   }
   
+  .hamburger {
+    display: block;
+  }
+
+  nav.mobile-nav ul {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    position: absolute;
+    top: 100px;
+    right: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  nav.mobile-nav ul.active {
+    display: flex;
+  }
+
+  nav.mobile-nav li a {
+    font-size: 1.2em;
+  }
+
+  nav.mobile-nav {
+    width: 100%;
+    text-align: right;
+  }
+
+  section {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left;
+    padding: 60px 15px 40px 15px;
+    scroll-margin-top: 180px;  /* Test and adjust as needed */
+  }
+
+  section h2 {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+  }
+
+  .section-content {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .section-content li {
+    font-size: 0.95em;
+  }
+
+  footer {
+    padding: 30px 15px;
+  }
+
+  body {
+    padding-top: 180px; /* Test and adjust as needed */
+  }
 }
 
   

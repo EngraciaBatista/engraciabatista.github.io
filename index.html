@@ -15,7 +15,10 @@
         <h1>Hi, I'm Engracia Batista</h1>
         <p>Data Scientist • Analyst • Project Leader</p>
       </div>
-      <nav>
+
+      <button class="hamburger" aria-label="Toggle menu">&#9776;</button>
+
+      <nav class="mobile-nav">
         <ul>
           <li><a href="#about">About</a></li>
           <li><a href="#experience">Experience</a></li>
@@ -25,6 +28,7 @@
           <li><a href="#volunteer">Volunteering</a></li>
         </ul>
       </nav>
+
     </div>
   </header>
   <div class="divider"></div>
@@ -97,24 +101,24 @@
         <div class="chart-area">
           <div class="chart-container">
             <div class="bar" data-years="1" data-label="AI / NLP / LLMs" style="background-color:#a29bfe;"></div>
-            <div class="bar" data-years="8" data-label="Data Visualization" style="background-color:#f8b195;"></div>
-            <div class="bar" data-years="4" data-label="Feature Engineering" style="background-color:#355c7d;"></div>
+            <div class="bar" data-years="4" data-label="Feature Engineering" style="background-color:#f8b195;"></div>
+            <div class="bar" data-years="8" data-label="Pipeline Engineering" style="background-color:#355c7d;"></div>
             <div class="bar" data-years="8" data-label="Data Cleaning & Wrangling" style="background-color:#f67280;"></div>
-            <div class="bar" data-years="14" data-label="Business Acumen" style="background-color:#6c5b7b;"></div>
-            <div class="bar" data-years="4" data-label="Experimentation / A/B Testing" style="background-color:#f0c987;"></div>
-            <div class="bar" data-years="8" data-label="Statistics & Probability" style="background-color:#c06c84;"></div>
-            <div class="bar" data-years="4" data-label="Model Deployment" style="background-color:#99b898;"></div>
+            <div class="bar" data-years="4" data-label="Sentiment Analysis" style="background-color:#6c5b7b;"></div>
+            <div class="bar" data-years="4" data-label="Customer Profiling / Personas" style="background-color:#f0c987;"></div>
+            <div class="bar" data-years="14" data-label="Processes Mapping & Optmization" style="background-color:#c06c84;"></div>
+            <div class="bar" data-years="4" data-label="MLops" style="background-color:#99b898;"></div>
           </div>
         </div>
         <ul class="bar-legend">
           <li><span style="background:#a29bfe"></span> AI / NLP / LLMs</li>
-          <li><span style="background:#f8b195"></span> Data Visualization</li>
-          <li><span style="background:#355c7d"></span> Feature Engineering</li>
+          <li><span style="background:#f8b195"></span> Feature Engineering</li>
+          <li><span style="background:#355c7d"></span> Pipeline Engineering</li>
           <li><span style="background:#f67280"></span> Data Cleaning & Wrangling</li>
-          <li><span style="background:#6c5b7b"></span> Business Acumen</li>
-          <li><span style="background:#f0c987"></span> Experimentation / A/B Testing</li>
-          <li><span style="background:#c06c84"></span> Statistics & Probability</li>
-          <li><span style="background:#99b898"></span> Model Deployment</li> 
+          <li><span style="background:#6c5b7b"></span> Sentiment Analysis</li>
+          <li><span style="background:#f0c987"></span> Customer Profiling / Personas</li>
+          <li><span style="background:#c06c84"></span> Processes Mapping & Optmization</li>
+          <li><span style="background:#99b898"></span> MLops</li> 
         </ul>
       </div>
     </div>    
@@ -168,7 +172,7 @@
         Dedicated to my mentees and to anyone who loves or wants to work in these fields, I started writing articles to guide and advise others. 
       </p>
       <p>You can check out my articles on my Medium page - 
-        <a href="https://medium.com/@engraciabatista" target="_blank">Crysalytics - Medium</a>
+        <a href="https://medium.com/@engraciabatista" target="_blank">Chrysalytics - Medium</a>
       </p>
       <img src="chrysalyticsLogo.png" alt="Chrysalytics logo" />
     </div>
@@ -196,6 +200,8 @@
   </footer>
   <script src="experience_barchart.js"></script>
   <script src="experience_donutchart.js"></script>
+  <script src="mobile_nav.js"></script>
+
 </body>
 </html>
 
