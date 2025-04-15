@@ -359,39 +359,31 @@ html {
   right: 30px;
 }
 
-/* --- Responsive --- */
+/* ------------------------- Responsive ------------------------ */
 @media (max-width: 768px) {
-  .experience-graphs {
-    flex-direction: column;
-    align-items: center;
-  }
 
   .hero {
     flex-direction: column;
-    padding: 20px;
+    padding: 0px;
+    width: 100%;
   }
 
-  .bar-chart-container,
-  .donut-chart-container {
-  max-width: 100%;
+  header {
+    position: static;
+    width: 100%;
   }
 
-  .chart-container {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .bar {
-    width: 40px;
+  header img {
+    width: 100px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
   }
   
-  nav ul {
-    flex-direction: column;
-    gap: 10px;
-    margin: 10px 0 0 0;
+  section img {
+    width: 90px; /* Adjust as needed */
+    height: 90px; /* Adjust as needed */
   }
 
-  /* Test resizing font for mobile */
+  /* Resizing font for mobile */
   .intro h1 {
     font-size: 2em;
   }
@@ -404,41 +396,30 @@ html {
     font-size: 1.8em;
     text-align: center;
   }
-/* ---------------- */
 
-  section {
-    padding: 60px 15px;
+  nav ul {
+    display: none;
+  }
+
+  .divider {
+    height: 10px;
+    width: 100%;
+    position: static;
+    top: 298px;
   }
   
-  .hamburger {
+  body {
     display: block;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding-top: 0px;
   }
-
-  nav.mobile-nav ul {
-    display: none;
-    flex-direction: column;
-    gap: 15px;
-    position: absolute;
-    top: 100px;
-    right: 20px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  nav.mobile-nav ul.active {
-    display: flex;
-  }
-
-  nav.mobile-nav li a {
-    font-size: 1.2em;
-  }
-
-  nav.mobile-nav {
-    width: 100%;
-    text-align: right;
-  }
+  
+  /*
+  body {
+    padding-top: 0px; /* Test and adjust as needed 
+  } 
+*/
 
   section {
     flex-direction: column !important;
@@ -457,19 +438,37 @@ html {
 
   .section-content {
     width: 100%;
-    padding: 0 10px;
+    /* padding: 0 60px 0 60px; */
+    padding: 0 60px;
+    box-sizing: border-box;
   }
 
   .section-content li {
     font-size: 0.95em;
   }
 
-  footer {
-    padding: 30px 15px;
+  .experience-graphs {
+    flex-direction: column;
+    align-items: center;
   }
 
-  body {
-    padding-top: 180px; /* Test and adjust as needed */
+  .bar-chart-container,
+  .donut-chart-container {
+  max-width: 100%;
+  }
+
+  .chart-container {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .bar {
+    width: 40px;
+  }
+
+  footer {
+    padding: 30px 15px;
+    margin-bottom: 0;
   }
 }
 
