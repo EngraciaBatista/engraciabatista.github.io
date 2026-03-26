@@ -2,205 +2,1047 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Engracia Batista | Portfolio</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engracia Batista | Data Scientist & NLP Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    /* ========== RESET & BASE ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --cyan:    #00e5ff;
+      --violet:  #9b5de5;
+      --magenta: #f72585;
+      --bg:      #0a0a1a;
+      --bg2:     #0f0f28;
+      --bg3:     #14142f;
+      --card:    #12122a;
+      --border:  #ffffff18;
+      --text:    #c8c8e0;
+      --text-dim:#7070a0;
+      --white:   #ffffff;
+      --grad:    linear-gradient(135deg, var(--cyan), var(--violet), var(--magenta));
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; color: var(--white); }
+
+    a { color: var(--cyan); text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: .75; }
+
+    /* ========== GRADIENT UTILITIES ========== */
+    .grad-text {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .grad-border {
+      border: 1px solid transparent;
+      background: linear-gradient(var(--card), var(--card)) padding-box,
+                  var(--grad) border-box;
+    }
+
+    /* ========== NAVBAR ========== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(10,10,26,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .9rem; font-weight: 500; color: var(--text);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-cta {
+      background: var(--grad); color: #fff !important;
+      padding: .45rem 1.1rem; border-radius: 20px;
+      font-weight: 600; font-size: .85rem;
+    }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
+
+    /* ========== HERO ========== */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, #9b5de530 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+    .hero-photo {
+      width: 130px; height: 130px; border-radius: 50%; object-fit: cover;
+      border: 3px solid transparent;
+      background: linear-gradient(var(--bg), var(--bg)) padding-box,
+                  var(--grad) border-box;
+      margin-bottom: 1.5rem;
+      position: relative; z-index: 1;
+    }
+    #hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: .75rem;
+      position: relative; z-index: 1;
+    }
+    .hero-tagline {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-dim);
+      margin-bottom: .5rem;
+      position: relative; z-index: 1;
+    }
+    .hero-subtitle {
+      font-size: .95rem; color: var(--text-dim);
+      margin-bottom: 2rem;
+      position: relative; z-index: 1;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 2.5rem;
+      position: relative; z-index: 1;
+    }
+    .btn-primary {
+      padding: .7rem 1.8rem; border-radius: 30px;
+      background: var(--grad);
+      color: #fff; font-weight: 600; font-size: .95rem;
+      border: none; cursor: pointer; transition: opacity .2s, transform .2s;
+    }
+    .btn-primary:hover { opacity: .85; transform: translateY(-2px); }
+    .btn-outline {
+      padding: .7rem 1.8rem; border-radius: 30px;
+      background: transparent;
+      color: var(--white); font-weight: 600; font-size: .95rem;
+      border: 1px solid var(--border); cursor: pointer;
+      transition: border-color .2s, transform .2s;
+    }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
+    .hero-socials {
+      display: flex; gap: 1.2rem;
+      position: relative; z-index: 1;
+    }
+    .hero-socials a {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color .2s, transform .2s;
+      color: var(--text);
+    }
+    .hero-socials a:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-3px); }
+    .hero-socials svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* ========== SECTIONS ========== */
+    section { padding: 90px 5%; }
+    section:nth-child(even) { background: var(--bg2); }
+
+    .section-label {
+      font-size: .8rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--cyan);
+      margin-bottom: .75rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700; margin-bottom: 1rem;
+    }
+    .section-divider {
+      width: 60px; height: 3px; border-radius: 2px;
+      background: var(--grad); margin-bottom: 2.5rem;
+    }
+
+    /* ========== ABOUT ========== */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      align-items: start;
+    }
+    .about-text p { margin-bottom: 1rem; font-size: .98rem; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .stat-card {
+      padding: 1.4rem 1.2rem; border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: border-color .3s, transform .3s;
+    }
+    .stat-card:hover { border-color: var(--violet); transform: translateY(-3px); }
+    .stat-number {
+      font-size: 2rem; font-weight: 700;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .stat-label { font-size: .8rem; color: var(--text-dim); margin-top: .3rem; }
+
+    /* ========== EXPERIENCE TIMELINE ========== */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute;
+      left: 0; top: 8px; bottom: 8px; width: 2px;
+      background: linear-gradient(to bottom, var(--cyan), var(--magenta));
+      border-radius: 2px;
+    }
+    .timeline-item {
+      position: relative; margin-bottom: 2.5rem; padding-left: 1.5rem;
+    }
+    .timeline-dot {
+      position: absolute; left: -2.45rem; top: 6px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--cyan);
+      transition: border-color .3s;
+    }
+    .timeline-item:hover .timeline-dot { border-color: var(--magenta); }
+    .timeline-card {
+      background: var(--card); border-radius: 12px;
+      padding: 1.5rem; border: 1px solid var(--border);
+      transition: border-color .3s, transform .3s;
+    }
+    .timeline-card:hover { border-color: var(--violet); transform: translateX(4px); }
+    .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: .5rem; margin-bottom: .75rem; }
+    .timeline-role { font-size: 1.05rem; font-weight: 600; color: var(--white); }
+    .timeline-company { font-size: .9rem; color: var(--cyan); font-weight: 500; }
+    .timeline-date {
+      font-size: .8rem; color: var(--text-dim);
+      background: var(--bg2); padding: .3rem .75rem;
+      border-radius: 20px; white-space: nowrap;
+    }
+    .timeline-desc { font-size: .9rem; color: var(--text); }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+    .tag {
+      font-size: .75rem; padding: .25rem .7rem; border-radius: 20px;
+      background: var(--bg3); color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+
+    /* ========== SKILLS ========== */
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .skills-group h3 { font-size: 1rem; margin-bottom: 1rem; color: var(--text-dim); font-weight: 500; }
+    .pills { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 2rem; }
+    .pill {
+      font-size: .82rem; padding: .4rem .9rem; border-radius: 20px;
+      border: 1px solid transparent;
+      transition: transform .2s;
+      cursor: default;
+    }
+    .pill:hover { transform: translateY(-2px); }
+    .pill-cyan { background: #00e5ff15; color: var(--cyan); border-color: #00e5ff40; }
+    .pill-violet { background: #9b5de515; color: var(--violet); border-color: #9b5de540; }
+    .pill-magenta { background: #f7258515; color: var(--magenta); border-color: #f7258540; }
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; }
+    .chart-card {
+      background: var(--card); border-radius: 12px; padding: 1.5rem;
+      border: 1px solid var(--border);
+    }
+    .chart-card h4 { font-size: .9rem; color: var(--text-dim); margin-bottom: 1rem; text-align: center; font-weight: 500; }
+    .chart-card canvas { max-height: 260px; }
+
+    /* ========== EDUCATION ========== */
+    .edu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+    .edu-card {
+      background: var(--card); border-radius: 12px; padding: 1.5rem;
+      border: 1px solid var(--border);
+      transition: border-color .3s, transform .3s;
+    }
+    .edu-card:hover { border-color: var(--violet); transform: translateY(-4px); }
+    .edu-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: var(--grad);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem; font-size: 1.2rem;
+    }
+    .edu-degree { font-size: .95rem; font-weight: 600; color: var(--white); margin-bottom: .3rem; }
+    .edu-school { font-size: .85rem; color: var(--cyan); margin-bottom: .3rem; }
+    .edu-year { font-size: .8rem; color: var(--text-dim); }
+    .edu-highlight { font-size: .8rem; color: var(--text); margin-top: .5rem; }
+
+    /* ========== PROJECTS ========== */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .project-card {
+      background: var(--card); border-radius: 14px; padding: 1.8rem;
+      border: 1px solid var(--border);
+      transition: border-color .3s, transform .3s;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover { border-color: var(--magenta); transform: translateY(-5px); }
+    .project-icon {
+      width: 54px; height: 54px; border-radius: 12px; margin-bottom: 1.2rem;
+      object-fit: cover;
+    }
+    .project-icon-placeholder {
+      width: 54px; height: 54px; border-radius: 12px; margin-bottom: 1.2rem;
+      background: var(--grad);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+    }
+    .project-card h3 { font-size: 1.05rem; margin-bottom: .6rem; }
+    .project-card p { font-size: .88rem; color: var(--text); flex: 1; margin-bottom: 1.2rem; }
+    .project-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .85rem; font-weight: 600; color: var(--cyan);
+      transition: gap .2s;
+    }
+    .project-link:hover { gap: .7rem; }
+
+    /* ========== ARTICLES ========== */
+    .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .article-card {
+      background: var(--card); border-radius: 14px; padding: 1.8rem;
+      border: 1px solid var(--border);
+      transition: border-color .3s, transform .3s;
+    }
+    .article-card:hover { border-color: var(--violet); transform: translateY(-4px); }
+    .article-brand {
+      display: flex; align-items: center; gap: .6rem;
+      margin-bottom: 1rem;
+    }
+    .article-brand-img {
+      width: 32px; height: 32px; border-radius: 8px; object-fit: cover;
+    }
+    .article-brand-name { font-size: .8rem; color: var(--text-dim); font-weight: 500; }
+    .article-card h3 { font-size: 1rem; margin-bottom: .6rem; }
+    .article-card p { font-size: .87rem; color: var(--text); margin-bottom: 1.2rem; }
+    .article-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .83rem; font-weight: 600; color: var(--violet);
+    }
+    .article-link:hover { opacity: .75; }
+
+    /* ========== VOLUNTEERING ========== */
+    .volunteer-list { display: flex; flex-direction: column; gap: 1rem; }
+    .volunteer-item {
+      background: var(--card); border-radius: 12px; padding: 1.2rem 1.5rem;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: .5rem;
+      transition: border-color .3s;
+    }
+    .volunteer-item:hover { border-color: var(--cyan); }
+    .volunteer-role { font-size: .95rem; font-weight: 500; color: var(--white); }
+    .volunteer-org { font-size: .85rem; color: var(--cyan); }
+    .volunteer-year { font-size: .82rem; color: var(--text-dim); white-space: nowrap; }
+
+    /* ========== CERTIFICATIONS ========== */
+    .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .cert-card {
+      background: var(--card); border-radius: 14px; padding: 1.8rem;
+      border: 1px solid var(--border);
+      transition: border-color .3s, transform .3s;
+      display: flex; flex-direction: column; gap: .8rem;
+    }
+    .cert-card:hover { border-color: var(--cyan); transform: translateY(-4px); }
+    .cert-badge {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: var(--grad);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .cert-issuer { font-size: .8rem; color: var(--cyan); font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+    .cert-title { font-size: 1rem; font-weight: 600; color: var(--white); line-height: 1.3; }
+    .cert-date { font-size: .8rem; color: var(--text-dim); }
+    .cert-desc { font-size: .87rem; color: var(--text); flex: 1; }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 3rem 5%;
+      text-align: center;
+    }
+    .footer-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem; font-weight: 700;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: .5rem;
+    }
+    .footer-tagline { font-size: .88rem; color: var(--text-dim); margin-bottom: 1.5rem; }
+    .footer-socials { display: flex; gap: 1.2rem; justify-content: center; margin-bottom: 2rem; }
+    .footer-socials a {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim); transition: border-color .2s, color .2s;
+    }
+    .footer-socials a:hover { border-color: var(--cyan); color: var(--cyan); }
+    .footer-socials svg { width: 17px; height: 17px; fill: currentColor; }
+    .footer-copy { font-size: .8rem; color: var(--text-dim); }
+
+    /* ========== SCROLL ANIMATIONS ========== */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .charts-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      nav { padding: 0 4%; }
+      .nav-links { display: none; flex-direction: column; gap: 0;
+        position: fixed; top: 64px; left: 0; right: 0;
+        background: rgba(10,10,26,.97); padding: 1.5rem 5%;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { padding: .65rem 0; border-bottom: 1px solid var(--border); }
+      .hamburger { display: flex; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .edu-grid, .projects-grid, .articles-grid { grid-template-columns: 1fr; }
+      section { padding: 60px 5%; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="hero">
-      <img src="EngraciaBatista.png" alt="My Photo" />
-      <div class="intro">
-        <h1>Hi, I'm Engracia Batista</h1>
-        <p>Data Scientist • Analyst • Project Leader</p>
-      </div>
 
-      <button class="hamburger" aria-label="Toggle menu">&#9776;</button>
-
-      <nav class="mobile-nav">
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#education">Education</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#articles">Articles</a></li>
-          <li><a href="#volunteer">Volunteering</a></li>
-        </ul>
-      </nav>
-
+  <!-- ========== NAVBAR ========== -->
+  <nav id="navbar">
+    <span class="nav-logo">EB.</span>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#articles">Articles</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#volunteering">Volunteering</a></li>
+      <li><a href="https://www.linkedin.com/in/engraciabatista/" target="_blank" class="nav-cta">Let's Connect</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
     </div>
-  </header>
-  <div class="divider"></div>
+  </nav>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <div class="section-content">
-      <p>Hi there! My name is Engracia. I'm passionate about solving puzzles, tackling data challenges, playing board games, and dancing.
-        Before diving into the world of data, I spent several years working as a Project Manager across various industries, 
-        as well as a Business Analyst helping startups analyze their business plans and processes. 
-        I focused on identifying areas for improvement and implementing changes to boost efficiency and successfully launch their businesses.
-        My journey into Business Intelligence began around 2016, and I was instantly intrigued. 
-        It combined three of my strengths: strategic thinking, logical and analytical reasoning, 
-        and artistic creativity (my first degree is in Fine Arts!). Later, I discovered the field of Data Science, which I found even more fascinating. 
-        This led me to co-found my own startup, Arrow Data Specialists, alongside another Data Scientist.
-        Since then, I've been involved in a variety of exciting projects across data analysis, data science, 
-        business intelligence, and business analysis. 
-        In 2017, I also became involved with the Project Management Institute (PMI) community, where I’ve been an active volunteer. 
-        Over the years, I’ve contributed to the growth and development of both new and experienced project managers, 
-        and it's been a rewarding part of my journey.  </p>
+  <!-- ========== HERO ========== -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <img src="https://engraciabatista.github.io/EngraciaBatista.png" alt="Engracia Batista" class="hero-photo" />
+    <h1>Hi, I'm <span class="grad-text">Engracia Batista</span></h1>
+    <p class="hero-tagline">NLP Engineer &nbsp;·&nbsp; Data Scientist &nbsp;·&nbsp; Project Leader</p>
+    <p class="hero-subtitle">Ottawa, Ontario, Canada &nbsp;·&nbsp; Open to opportunities</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="https://www.linkedin.com/in/engraciabatista/" target="_blank" class="btn-outline">Connect on LinkedIn</a>
+    </div>
+    <div class="hero-socials">
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/engraciabatista/" target="_blank" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <!-- GitHub -->
+      <a href="https://github.com/EngraciaBatista" target="_blank" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <!-- Medium -->
+      <a href="https://medium.com/@engraciabatista" target="_blank" title="Medium">
+        <svg viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+      </a>
+      <!-- Kaggle -->
+      <a href="https://www.kaggle.com/engraciadacosta" target="_blank" title="Kaggle">
+        <svg viewBox="0 0 24 24"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.285.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.07.311z"/></svg>
+      </a>
+      <!-- Email -->
+      <a href="mailto:engraciadacosta@outlook.com" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </a>
     </div>
   </section>
 
-  <section id="experience">
-    <h2>My Experience</h2>
-    <div class="section-content">
-      <ul>
-        <li>Data Specialist - memoQ 2021-2025</li>
-        <li>Product Marketing Manager - memoQ 2020-2021</li>
-        <li>Business Development Manager - memoQ 2019-2021</li>
-        <li>Business Analyst - Project Manager - Arrow Data Specialists 2017 - 2018</li>
-        <li>Business Analyst - Project Manager - Quoda 2017 - 2018</li>
-      </ul>
-
-    <div class="experience-graphs">
-      <!-- Donut Chart -->
-      <div class="donut-chart-container">
-        <h4>Years of Experience by Topic</h4>
-        <div class="donut-wrapper">
-          <svg class="donut" viewBox="0 0 36 36">
-            <circle class="donut-hole" cx="18" cy="18" r="15.9155" fill="#fff"></circle>
-            <circle class="donut-ring" cx="18" cy="18" r="15.9155" fill="transparent" stroke="#eee" stroke-width="3"></circle>
-
-            <circle class="donut-segment" stroke="#f8b195" data-years="4"></circle>
-            <circle class="donut-segment" stroke="#f67280" data-years="8"></circle>
-            <circle class="donut-segment" stroke="#c06c84" data-years="2"></circle>
-            <circle class="donut-segment" stroke="#a29bfe" data-years="1"></circle>
-            <circle class="donut-segment" stroke="#6c5b7b" data-years="3"></circle>
-            <circle class="donut-segment" stroke="#355c7d" data-years="8"></circle>
-            <circle class="donut-segment" stroke="#99b898" data-years="14"></circle>
-            <circle class="donut-segment" stroke="#f0c987" data-years="14"></circle>
-          </svg>
-
-          <ul class="donut-legend">
-            <li><span style="background:#f8b195"></span> Data Science</li>
-            <li><span style="background:#f67280"></span> Data Analysis</li>
-            <li><span style="background:#c06c84"></span> Data Engineering</li>
-            <li><span style="background:#a29bfe"></span> AI Engineering</li>
-            <li><span style="background:#6c5b7b"></span> Machine Learning</li>
-            <li><span style="background:#355c7d"></span> Business Intelligence</li>
-            <li><span style="background:#99b898"></span> Business Analysis</li>
-            <li><span style="background:#f0c987"></span> Project Management</li> 
-          </ul>
+  <!-- ========== ABOUT ========== -->
+  <section id="about">
+    <div class="fade-in">
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">Where Data Meets Creativity</h2>
+      <div class="section-divider"></div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>Hi there! I'm <strong>Engracia</strong>, an NLP Engineer and Data Scientist with a unique journey that bridges the arts and technology. Before diving into the world of data, I spent several years as a <strong>Project Manager and Business Analyst</strong> helping startups improve efficiency and launch successfully across various industries.</p>
+          <p>My journey into Business Intelligence began around 2016, combining three of my strengths: strategic thinking, logical and analytical reasoning, and artistic creativity (my first degree is in Fine Arts!). I later discovered Data Science and co-founded my own startup, <strong>Arrow Data Specialists</strong>.</p>
+          <p>Today I apply cutting-edge NLP and ML techniques at memoQ, working on production machine translation systems that serve millions of users, while pursuing my Software Engineering degree at Centennial College in Toronto.</p>
+          <p>I'm also deeply involved in the <strong>PMI (Project Management Institute)</strong> community, where I've mentored emerging data and project management professionals since 2017.</p>
+          <p style="margin-top:1.5rem;">📍 Ottawa, Ontario, Canada &nbsp;·&nbsp; 📧 <a href="mailto:engraciadacosta@outlook.com">engraciadacosta@outlook.com</a></p>
         </div>
-      </div>
-
-    <div class="bar-chart-container">
-      <h4>Years of Experience by skills</h4>
-      <div id="experience-chart">
-        <div class="chart-area">
-          <div class="chart-container">
-            <div class="bar" data-years="1" data-label="AI / NLP / LLMs" style="background-color:#a29bfe;"></div>
-            <div class="bar" data-years="4" data-label="Feature Engineering" style="background-color:#f8b195;"></div>
-            <div class="bar" data-years="8" data-label="Pipeline Engineering" style="background-color:#355c7d;"></div>
-            <div class="bar" data-years="8" data-label="Data Cleaning & Wrangling" style="background-color:#f67280;"></div>
-            <div class="bar" data-years="4" data-label="Sentiment Analysis" style="background-color:#6c5b7b;"></div>
-            <div class="bar" data-years="4" data-label="Customer Profiling / Personas" style="background-color:#f0c987;"></div>
-            <div class="bar" data-years="14" data-label="Processes Mapping & Optmization" style="background-color:#c06c84;"></div>
-            <div class="bar" data-years="4" data-label="MLops" style="background-color:#99b898;"></div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Years of professional experience across data, tech & management</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Years in Data Science & Machine Learning</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">Co-<br>founder</div>
+            <div class="stat-label">Arrow Data Specialists, a data science startup</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">PMI</div>
+            <div class="stat-label">Active volunteer & mentor, Project Management Institute since 2017</div>
           </div>
         </div>
-        <ul class="bar-legend">
-          <li><span style="background:#a29bfe"></span> AI / NLP / LLMs</li>
-          <li><span style="background:#f8b195"></span> Feature Engineering</li>
-          <li><span style="background:#355c7d"></span> Pipeline Engineering</li>
-          <li><span style="background:#f67280"></span> Data Cleaning & Wrangling</li>
-          <li><span style="background:#6c5b7b"></span> Sentiment Analysis</li>
-          <li><span style="background:#f0c987"></span> Customer Profiling / Personas</li>
-          <li><span style="background:#c06c84"></span> Processes Mapping & Optmization</li>
-          <li><span style="background:#99b898"></span> MLops</li> 
-        </ul>
       </div>
-    </div>    
-    
+    </div>
   </section>
 
+  <!-- ========== EXPERIENCE ========== -->
+  <section id="experience">
+    <div class="fade-in">
+      <p class="section-label">Career</p>
+      <h2 class="section-title">My Experience</h2>
+      <div class="section-divider"></div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <div class="timeline-role">NLP Engineer</div>
+                <div class="timeline-company">memoQ · Remote – Ottawa / Budapest</div>
+              </div>
+              <span class="timeline-date">Sep 2025 – Present</span>
+            </div>
+            <p class="timeline-desc">Contribute to the design and implementation of NLP pipelines for production machine translation systems. Led quality improvement initiatives across French (CA/EU) and Portuguese (BR/PT) language variants, reducing customer-reported errors and improving grammatical compliance. Perform prompt engineering, model evaluation using F1/precision/recall metrics, and dataset preparation.</p>
+            <div class="timeline-tags">
+              <span class="tag">NLP</span><span class="tag">Python</span><span class="tag">Hugging Face</span>
+              <span class="tag">Prompt Engineering</span><span class="tag">spaCy</span><span class="tag">PyTorch</span>
+              <span class="tag">Machine Translation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <div class="timeline-role">Data Specialist</div>
+                <div class="timeline-company">memoQ · Remote – Ottawa / Budapest</div>
+              </div>
+              <span class="timeline-date">Dec 2020 – Oct 2025</span>
+            </div>
+            <p class="timeline-desc">Delivered strategic data projects supporting company-wide decision-making, spanning data engineering, BI architecture, ML, and AI. Led the <em>Binóculos</em> initiative: a full redesign of CRM data architecture and the build-out of sales intelligence pipelines and dashboards. Drove proactive pipeline visibility for Sales, Marketing, and Leadership teams.</p>
+            <div class="timeline-tags">
+              <span class="tag">Data Engineering</span><span class="tag">ETL Pipelines</span><span class="tag">Power BI</span>
+              <span class="tag">CRM Architecture</span><span class="tag">ML</span><span class="tag">SQL</span><span class="tag">Azure AI</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <div class="timeline-role">Product Marketing Manager</div>
+                <div class="timeline-company">memoQ</div>
+              </div>
+              <span class="timeline-date">2020 – 2021</span>
+            </div>
+            <p class="timeline-desc">Developed data-driven marketing strategies to support product positioning and market growth. Bridged the gap between product capabilities and customer needs using analytical insights.</p>
+            <div class="timeline-tags">
+              <span class="tag">Product Marketing</span><span class="tag">Data Analysis</span><span class="tag">Strategy</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <div class="timeline-role">Business Development Manager</div>
+                <div class="timeline-company">memoQ</div>
+              </div>
+              <span class="timeline-date">2019 – 2021</span>
+            </div>
+            <p class="timeline-desc">Identified and pursued growth opportunities, combining business analysis skills with market intelligence to expand the company's presence in international markets.</p>
+            <div class="timeline-tags">
+              <span class="tag">Business Development</span><span class="tag">Market Analysis</span><span class="tag">CRM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <div class="timeline-role">Business Analyst & Project Manager</div>
+                <div class="timeline-company">Arrow Data Specialists (Co-founder) & Quoda</div>
+              </div>
+              <span class="timeline-date">2017 – 2018</span>
+            </div>
+            <p class="timeline-desc">Co-founded Arrow Data Specialists alongside a fellow Data Scientist, working on data analysis, BI, and business analysis projects for clients. Simultaneously served as Business Analyst and PM at Quoda, helping startups analyze business processes and implement improvements for successful launches.</p>
+            <div class="timeline-tags">
+              <span class="tag">Business Analysis</span><span class="tag">Project Management</span>
+              <span class="tag">Startup Consulting</span><span class="tag">Process Mapping</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SKILLS ========== -->
+  <section id="skills">
+    <div class="fade-in">
+      <p class="section-label">Expertise</p>
+      <h2 class="section-title">Skills & Technologies</h2>
+      <div class="section-divider"></div>
+      <div class="skills-grid">
+        <div>
+          <div class="skills-group">
+            <h3>🤖 AI / NLP / Machine Learning</h3>
+            <div class="pills">
+              <span class="pill pill-cyan">Python</span>
+              <span class="pill pill-cyan">NLP</span>
+              <span class="pill pill-cyan">Hugging Face</span>
+              <span class="pill pill-cyan">spaCy</span>
+              <span class="pill pill-cyan">NLTK</span>
+              <span class="pill pill-cyan">PyTorch</span>
+              <span class="pill pill-cyan">TensorFlow</span>
+              <span class="pill pill-cyan">Keras</span>
+              <span class="pill pill-cyan">XGBoost</span>
+              <span class="pill pill-cyan">scikit-learn</span>
+              <span class="pill pill-cyan">Prompt Engineering</span>
+              <span class="pill pill-cyan">Azure AI Services</span>
+              <span class="pill pill-cyan">LLMs</span>
+            </div>
+          </div>
+          <div class="skills-group">
+            <h3>🗄️ Data Engineering & BI</h3>
+            <div class="pills">
+              <span class="pill pill-violet">ETL Pipelines</span>
+              <span class="pill pill-violet">SQL</span>
+              <span class="pill pill-violet">Power BI</span>
+              <span class="pill pill-violet">Tableau</span>
+              <span class="pill pill-violet">Data Modeling</span>
+              <span class="pill pill-violet">CRM Architecture</span>
+              <span class="pill pill-violet">AWS</span>
+              <span class="pill pill-violet">Azure</span>
+              <span class="pill pill-violet">MLOps</span>
+            </div>
+          </div>
+          <div class="skills-group">
+            <h3>🧩 Business & Leadership</h3>
+            <div class="pills">
+              <span class="pill pill-magenta">Project Management</span>
+              <span class="pill pill-magenta">Business Analysis</span>
+              <span class="pill pill-magenta">Process Mapping</span>
+              <span class="pill pill-magenta">Strategic Thinking</span>
+              <span class="pill pill-magenta">Cross-functional Leadership</span>
+              <span class="pill pill-magenta">Agile & Waterfall</span>
+              <span class="pill pill-magenta">Mentoring</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="charts-row">
+            <div class="chart-card">
+              <h4>Years of Experience by Domain</h4>
+              <canvas id="topicChart"></canvas>
+            </div>
+            <div class="chart-card">
+              <h4>Years of Experience by Technical Skills</h4>
+              <canvas id="skillChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== EDUCATION ========== -->
   <section id="education">
-    <h2>My Education</h2>
-    <div class="section-content">
-      <ul>
-        <li>College degree in Software Engineering - Centennial College, Canada</li>
-        <li>Certificate in Data Science - University of Waterloo, Canada</li>
-        <li>Executive MBA in IT Management - FGV, Brazil</li>
-        <li>Postgrad in Strategic Management - Faculdade Projeção, Brazil</li>
-        <li>Bachelors Degree in Fine Arts - Universidade de Brasília, Brazil</li>
-      </ul>
+    <div class="fade-in">
+      <p class="section-label">Education</p>
+      <h2 class="section-title">My Academic Journey</h2>
+      <div class="section-divider"></div>
+      <div class="edu-grid">
+
+        <div class="edu-card">
+          <div class="edu-icon">💻</div>
+          <div class="edu-degree">Software Engineering Technology</div>
+          <div class="edu-school">Centennial College, Toronto, Canada</div>
+          <div class="edu-year">2023 – 2027 (Expected) · Advanced Diploma</div>
+          <div class="edu-highlight">TAC & CIPS accredited · Coursework in AI/ML, Cloud Computing, Data Structures, Web Development, and Software Systems Design.</div>
+        </div>
+
+        <div class="edu-card">
+          <div class="edu-icon">🔬</div>
+          <div class="edu-degree">Certificate in Data Science</div>
+          <div class="edu-school">University of Waterloo & University of Toronto</div>
+          <div class="edu-year">2020 – 2022</div>
+          <div class="edu-highlight">Advanced ML, Statistics, Big Data, Spark, TensorFlow, MLOps. Built models with Python, Scikit-learn, and Keras.</div>
+        </div>
+
+        <div class="edu-card">
+          <div class="edu-icon">📊</div>
+          <div class="edu-degree">Executive MBA – IT Management</div>
+          <div class="edu-school">FGV (Fundação Getúlio Vargas), Brazil</div>
+          <div class="edu-year">2016 – 2018</div>
+          <div class="edu-highlight">IT governance, strategic management, digital transformation, and applied project management frameworks.</div>
+        </div>
+
+        <div class="edu-card">
+          <div class="edu-icon">🎯</div>
+          <div class="edu-degree">Postgrad in Strategic Management</div>
+          <div class="edu-school">Faculdade Projeção, Brazil</div>
+          <div class="edu-year">Completed</div>
+          <div class="edu-highlight">Organizational strategy, operational efficiency, and business process optimization.</div>
+        </div>
+
+        <div class="edu-card">
+          <div class="edu-icon">🎨</div>
+          <div class="edu-degree">Bachelor's Degree in Fine Arts</div>
+          <div class="edu-school">Universidade de Brasília, Brazil</div>
+          <div class="edu-year">2003 – 2011</div>
+          <div class="edu-highlight">Foundations of visual design, creative thinking, and artistic communication. These skills enrich every data visualization I build.</div>
+        </div>
+
+      </div>
     </div>
   </section>
 
+  <!-- ========== PROJECTS ========== -->
   <section id="projects">
-    <h2>My Projects</h2>
-    <div class="section-content">
-      <h3>Git Portfolio</h3>
-      <p>Throughout the years, I always wanted to join Data Science competitions for fun, for practice, and to learn new skills. 
-          It had always been on my bucket list, but never quite made it to the top of my priorities due to lack of time.
-          Now, in 2025, I’m excited to share that I’ve finally participated in my first Data Science competition on Kaggle! 
-          The goal is to keep joining more challenges, share my learnings with the data community, and contribute to the future of AI.
-          If you’d like to check out my project (soon to be projects, plural!), feel free to visit my GitHub page -  
-        <a href="https://github.com/EngraciaBatista" target="_blank">Engracia Batista - GitHub</a>
-      </p>
-      <h3>Code Chronicles</h3>
-      <p>After completing a Prompt Engineering course organized by the Project Management Institute in 2024, I went a little wild creating GPTs.
-          My favorite creation is Code Chronicles, a gamified GPT where users choose the type of adventure they want, 
-          and the chat automatically begins building a story. At each gateway, the user must solve a Python coding challenge to continue their journey.
-          You can find it today in the ChatGPT Store, and a dedicated webpage for the game is currently in development.
-          Give the GPT a try, just click the following link -  
-        <a href="https://chatgpt.com/g/g-6781d22a3e4881918e0507879b14a308-code-chronicles" target="_blank">ChatGPT - Code Chronicles</a>
-      </p>
-    
-      <img src="CodeChronicles_Logo.png" alt="CodeChronicles logo" />
+    <div class="fade-in">
+      <p class="section-label">Portfolio</p>
+      <h2 class="section-title">My Projects</h2>
+      <div class="section-divider"></div>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <div class="project-icon-placeholder">🏆</div>
+          <h3>Kaggle Data Science Portfolio</h3>
+          <p>After years of wanting to compete, I participated in my first Kaggle Data Science competition in 2025! The goal is to keep joining challenges, share learnings with the data community, and contribute to the future of AI. More projects coming soon.</p>
+          <a href="https://github.com/EngraciaBatista" target="_blank" class="project-link">View on GitHub →</a>
+        </div>
+
+        <div class="project-card">
+          <img src="CodeChronicles_Logo.png" alt="Code Chronicles" class="project-icon" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="project-icon-placeholder" style="display:none">📖</div>
+          <h3>Code Chronicles</h3>
+          <p>A gamified GPT where users choose an adventure and the AI builds the story. At each gateway, users solve a Python coding challenge to continue. Available now in the ChatGPT Store, bringing together storytelling and programming education.</p>
+          <a href="https://chatgpt.com/g/g-code-chronicles" target="_blank" class="project-link">Try it in ChatGPT →</a>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon-placeholder">🔭</div>
+          <h3>Binóculos: Sales Intelligence</h3>
+          <p>Led end-to-end redesign of CRM data architecture at memoQ, building structured ETL pipelines and BI dashboards that transformed sales visibility. Enabled proactive pipeline management across Sales, Marketing, and Leadership.</p>
+          <span style="font-size:.8rem; color:var(--text-dim);">Enterprise project at memoQ</span>
+        </div>
+
+      </div>
     </div>
   </section>
 
+  <!-- ========== ARTICLES ========== -->
   <section id="articles">
-    <h2>My Articles</h2>
-    <div class="section-content">
-      <p>Back in 2023, when I assumed the position of Director of Volunteering and Membership at the PMI (Project Management Institute), 
-        we decided to create a data team to manage volunteer and member data, as well as to generate reports and insights.
-        With this initiative, I began mentoring some brilliant new minds aspiring to work in Data Analysis and Data Science. 
-        From time to time, I also hosted webinars on topics related to data, business analysis, and project management.
-        Dedicated to my mentees and to anyone who loves or wants to work in these fields, I started writing articles to guide and advise others. 
-      </p>
-      <p>You can check out my articles on my Medium page - 
-        <a href="https://medium.com/@engraciabatista" target="_blank">Chrysalytics - Medium</a>
-      </p>
-      <img src="chrysalyticsLogo.png" alt="Chrysalytics logo" />
+    <div class="fade-in">
+      <p class="section-label">Writing</p>
+      <h2 class="section-title">My Articles</h2>
+      <div class="section-divider"></div>
+      <div class="articles-grid">
+
+        <div class="article-card">
+          <div class="article-brand">
+            <img src="chrysalyticsLogo.png" alt="Chrysalytics" class="article-brand-img" onerror="this.style.display='none'">
+            <span class="article-brand-name">Chrysalytics on Medium</span>
+          </div>
+          <h3>In The Age of AI, Be Human.</h3>
+          <p>These days, Artificial Intelligence is taking over a lot of space automating repetitive tasks, optimizing processes, and even creative work. A reflection on what makes human skills more relevant than ever.</p>
+          <a href="https://medium.com/@engraciabatista/in-the-age-of-ai-be-human-d9a87837c947" target="_blank" class="article-link">Read on Medium →</a>
+          <span style="font-size:.77rem; color:var(--text-dim); margin-top:.4rem; display:block;">May 15, 2025</span>
+        </div>
+
+        <div class="article-card">
+          <div class="article-brand">
+            <img src="chrysalyticsLogo.png" alt="Chrysalytics" class="article-brand-img" onerror="this.style.display='none'">
+            <span class="article-brand-name">Chrysalytics on Medium</span>
+          </div>
+          <h3>Data Visualization: How and What to do</h3>
+          <p>Data Visualization and Graphs: how and when to use them. A practical guide to choosing the right chart type and communicating data clearly and effectively.</p>
+          <a href="https://medium.com/@engraciabatista/data-visualization-how-and-what-to-do-3bd75f40d917" target="_blank" class="article-link">Read on Medium →</a>
+          <span style="font-size:.77rem; color:var(--text-dim); margin-top:.4rem; display:block;">Apr 3, 2025</span>
+        </div>
+
+        <div class="article-card">
+          <div class="article-brand">
+            <img src="chrysalyticsLogo.png" alt="Chrysalytics" class="article-brand-img" onerror="this.style.display='none'">
+            <span class="article-brand-name">Chrysalytics on Medium</span>
+          </div>
+          <h3>I want to work with Data. Where do I start?</h3>
+          <p>A career guide for aspiring data professionals: what paths exist, what skills matter, and how to take your first real steps into the world of data.</p>
+          <a href="https://medium.com/@engraciabatista/i-want-to-work-with-data-where-do-i-start-31626a8c129f" target="_blank" class="article-link">Read on Medium →</a>
+          <span style="font-size:.77rem; color:var(--text-dim); margin-top:.4rem; display:block;">Mar 14, 2025</span>
+        </div>
+
+        <div class="article-card">
+          <div class="article-brand">
+            <img src="chrysalyticsLogo.png" alt="Chrysalytics" class="article-brand-img" onerror="this.style.display='none'">
+            <span class="article-brand-name">Chrysalytics on Medium</span>
+          </div>
+          <h3>And the Most Needed Skill of the Future is...</h3>
+          <p>Over the years, many articles have debated the most important career skills. With the rise of Machine Learning and AI, the answer may surprise you.</p>
+          <a href="https://medium.com/@engraciabatista/and-the-most-needed-skill-of-the-future-is-0711d0c2dae4" target="_blank" class="article-link">Read on Medium →</a>
+          <span style="font-size:.77rem; color:var(--text-dim); margin-top:.4rem; display:block;">Mar 14, 2024</span>
+        </div>
+
+      </div>
     </div>
   </section>
 
-  <section id="volunteer">
-    <h2>Volunteer Work</h2>
-    <div class="section-content">
-      <ul>
-        <li>Director of Membership and Volunteering - PMI-DF 2023 - 2024</li>
-        <li>Mentoring Program Cycle 10 - Project Manager - PMI-DF 2023</li>
-        <li>Mentoring Program Cycle 7 - Project Manager - PMI-DF 2022</li>
-        <li>Translator - PMI-DF - 2017 - 2018</li>
-        <li>Sponsorship Program - PMI-DF - Project Manager - 2017 - 2021</li>
-      </ul>
+  <!-- ========== CERTIFICATIONS & AWARDS ========== -->
+  <section id="certifications">
+    <div class="fade-in">
+      <p class="section-label">Credentials</p>
+      <h2 class="section-title">Certifications &amp; Awards</h2>
+      <div class="section-divider"></div>
+      <div class="cert-grid">
+
+        <div class="cert-card">
+          <div class="cert-badge">🏆</div>
+          <div>
+            <div class="cert-issuer">PMI-DF</div>
+            <div class="cert-title">Project of the Year: Mentoring Program</div>
+            <div class="cert-date">2024</div>
+          </div>
+          <p class="cert-desc">Recognition certificate awarded at PMI-DF for leading the Mentoring Program. The initiative drove data-informed decisions across the organization and provided career guidance to aspiring data and project management professionals.</p>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-badge">🌐</div>
+          <div>
+            <div class="cert-issuer">Microsoft</div>
+            <div class="cert-title">Microsoft AI Skills Fest: Guinness World Record Official Attempt</div>
+            <div class="cert-date">April 8, 2025</div>
+          </div>
+          <p class="cert-desc">Participated in the Microsoft AI Skills Fest, an official Guinness World Record attempt for the most users to complete an online multi-level artificial intelligence lesson in 24 hours.</p>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-badge">📊</div>
+          <div>
+            <div class="cert-issuer">HubSpot Academy</div>
+            <div class="cert-title">HubSpot Sales Software Certified</div>
+            <div class="cert-date">Aug 2019</div>
+          </div>
+          <p class="cert-desc">Certified in inbound methodology and HubSpot CRM software, demonstrating mastery of the real-world application of inbound theory and sales pipeline management.</p>
+        </div>
+
+      </div>
     </div>
   </section>
-  
+
+  <!-- ========== VOLUNTEERING ========== -->
+  <section id="volunteering">
+    <div class="fade-in">
+      <p class="section-label">Community</p>
+      <h2 class="section-title">Volunteer Work</h2>
+      <div class="section-divider"></div>
+      <div class="volunteer-list">
+        <div class="volunteer-item">
+          <div>
+            <div class="volunteer-role">Director of Membership and Volunteering</div>
+            <div class="volunteer-org">PMI-DF (Project Management Institute)</div>
+          </div>
+          <span class="volunteer-year">2023 – 2024</span>
+        </div>
+        <div class="volunteer-item">
+          <div>
+            <div class="volunteer-role">Mentoring Program Cycle 10 , Project Manager</div>
+            <div class="volunteer-org">PMI-DF</div>
+          </div>
+          <span class="volunteer-year">2023</span>
+        </div>
+        <div class="volunteer-item">
+          <div>
+            <div class="volunteer-role">Mentoring Program Cycle 7 , Project Manager</div>
+            <div class="volunteer-org">PMI-DF</div>
+          </div>
+          <span class="volunteer-year">2022</span>
+        </div>
+        <div class="volunteer-item">
+          <div>
+            <div class="volunteer-role">Sponsorship Program , Project Manager</div>
+            <div class="volunteer-org">PMI-DF</div>
+          </div>
+          <span class="volunteer-year">2017 – 2021</span>
+        </div>
+        <div class="volunteer-item">
+          <div>
+            <div class="volunteer-role">Translator</div>
+            <div class="volunteer-org">PMI-DF</div>
+          </div>
+          <span class="volunteer-year">2017 – 2018</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
   <footer>
-    <p>Connect with me on 
-      <a href="https://www.linkedin.com/in/engraciabatista/" target="_blank">LinkedIn</a>
-    </p>
-    <p>Created by Engracia Batista</p>
-    <p>Data Science - Data Analysis - Project Management</p>
+    <div class="footer-name">Engracia Batista</div>
+    <div class="footer-tagline">NLP Engineer · Data Scientist · Project Leader · Ottawa, Canada</div>
+    <div class="footer-socials">
+      <a href="https://www.linkedin.com/in/engraciabatista/" target="_blank" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://github.com/EngraciaBatista" target="_blank" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a href="https://medium.com/@engraciabatista" target="_blank" title="Medium">
+        <svg viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+      </a>
+      <a href="https://www.kaggle.com/engraciadacosta" target="_blank" title="Kaggle">
+        <svg viewBox="0 0 24 24"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.285.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.07.311z"/></svg>
+      </a>
+      <a href="mailto:engraciadacosta@outlook.com" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </a>
+    </div>
+    <div class="footer-copy">© 2026 Engracia Batista · Data Science · NLP Engineering · Project Management</div>
   </footer>
-  <script src="experience_barchart.js"></script>
-  <script src="experience_donutchart.js"></script>
-  
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // Mobile menu toggle
+    function toggleMenu() {
+      document.getElementById('nav-links').classList.toggle('open');
+    }
+
+    // Navbar shadow on scroll
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      nav.style.background = window.scrollY > 20
+        ? 'rgba(10,10,26,0.97)'
+        : 'rgba(10,10,26,0.85)';
+    });
+
+    // Scroll fade-in animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ===== CHARTS (initialized after full page load) =====
+    window.addEventListener('load', function() {
+      if (typeof Chart === 'undefined') return;
+
+    // Domain chart (doughnut)
+    const topicCtx = document.getElementById('topicChart').getContext('2d');
+    new Chart(topicCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Project Mgmt', 'Business Analysis', 'Business Intelligence', 'Data Analysis', 'Data Science', 'Data Engineering', 'Machine Learning', 'AI / NLP'],
+        datasets: [{
+          data: [8, 7, 7, 6, 5, 4, 4, 2],
+          backgroundColor: [
+            '#00e5ff','#18cfeb','#40b0d6','#6690c0','#9b5de5','#c040b0','#e8267a','#f72585'
+          ],
+          borderColor: '#12122a',
+          borderWidth: 2,
+          hoverOffset: 8
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: { color: '#7070a0', font: { size: 10 }, padding: 8, boxWidth: 12 }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => ` ${ctx.label}: ~${ctx.raw} yrs`
+            }
+          }
+        },
+        cutout: '55%'
+      }
+    });
+
+    // Skills chart (horizontal bar)
+    const skillCtx = document.getElementById('skillChart').getContext('2d');
+    new Chart(skillCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Process Mapping', 'Data Wrangling', 'Customer Profiling', 'Feature Eng.', 'Pipeline Eng.', 'Sentiment Analysis', 'AI / NLP / LLMs', 'MLOps'],
+        datasets: [{
+          data: [8, 6, 5, 4, 4, 3, 3, 2],
+          backgroundColor: [
+            '#00e5ff','#2ad0f0','#55bbdf','#80a6ce','#9b5de5','#c240c0','#e8267a','#f72585'
+          ],
+          borderRadius: 5,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => ` ~${ctx.raw} years`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: '#ffffff10' },
+            ticks: { color: '#7070a0', font: { size: 10 } }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: '#c8c8e0', font: { size: 10 } }
+          }
+        }
+      }
+    });
+
+    }); // end window.load
+  </script>
 </body>
 </html>
-
