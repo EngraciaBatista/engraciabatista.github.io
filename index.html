@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -242,7 +241,7 @@
           <div class="project-icon-placeholder" style="display:none">📖</div>
           <h3>Code Chronicles</h3>
           <p>An early experiment in AI for learning: a gamified GPT where users choose an adventure, the AI builds the story, and each gateway unlocks only after solving a Python coding challenge. It led directly to my Claude Tutoring Skill.</p>
-          <a href="https://chatgpt.com/g/g-code-chronicles" target="_blank" class="project-link">Try it in ChatGPT →</a>
+          <span style="font-size:.8rem; color:var(--text-dim);">Custom GPT experiment (retired)</span>
         </div>
 
       </div>
@@ -316,16 +315,8 @@
           </div>
         </div>
         <div>
-          <div class="charts-row">
-            <div class="chart-card">
-              <h4>Years of Experience by Domain</h4>
-              <canvas id="topicChart"></canvas>
-            </div>
-            <div class="chart-card">
-              <h4>Years of Experience by Technical Skills</h4>
-              <canvas id="skillChart"></canvas>
-            </div>
-          </div>
+          <h3 class="stl-title">Skills Through Time</h3>
+          <div class="skill-tl" id="skillTimeline" tabindex="0" aria-label="Interactive timeline of when each skill started. Use the left and right arrow keys to move through the years."></div>
         </div>
       </div>
     </div>
@@ -570,8 +561,7 @@
 
   <!-- ========== SCRIPTS ========== -->
   <script src="mobile_nav.js"></script>
-  <script src="experience_donutchart.js"></script>
-  <script src="experience_barchart.js"></script>
+  <script src="skills_timeline.js"></script>
 
 </body>
 </html>

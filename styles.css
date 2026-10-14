@@ -252,13 +252,113 @@ section:nth-child(even) { background: var(--bg2); }
 .pill-cyan { background: #00e5ff15; color: var(--cyan); border-color: #00e5ff40; }
 .pill-violet { background: #9b5de515; color: var(--violet); border-color: #9b5de540; }
 .pill-magenta { background: #f7258515; color: var(--magenta); border-color: #f7258540; }
-.charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; }
-.chart-card {
-  background: var(--card); border-radius: 12px; padding: 1.5rem;
-  border: 1px solid var(--border);
+/* ---------- Skills Through Time (interactive timeline) ---------- */
+.stl-title { font-size: 1rem; margin-bottom: 1rem; }
+.skill-tl {
+  --label-w: 162px;
+  --tl-dim: #9d9dc8;
+  position: relative;
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 1.25rem 1.25rem 1rem;
+  outline: none; touch-action: pan-y; user-select: none;
 }
-.chart-card h4 { font-size: .9rem; color: var(--text-dim); margin-bottom: 1rem; text-align: center; font-weight: 500; }
-.chart-card canvas { max-height: 260px; }
+.skill-tl:focus-visible { box-shadow: 0 0 0 2px var(--cyan); }
+
+.stl-readout { display: flex; align-items: center; gap: .9rem; min-height: 3rem; margin-bottom: .8rem; }
+.stl-year {
+  font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700; line-height: 1;
+  font-variant-numeric: tabular-nums;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.stl-meta { display: flex; flex-direction: column; line-height: 1.35; min-width: 0; }
+.stl-role { color: var(--white); font-size: .85rem; font-weight: 500; }
+.stl-count { color: var(--tl-dim); font-size: .75rem; }
+
+.stl-legend { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+.stl-chip {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font: inherit; font-size: .72rem; color: var(--tl-dim);
+  background: transparent; border: 1px solid var(--border); border-radius: 999px;
+  padding: .2rem .65rem; cursor: pointer; transition: color .2s, border-color .2s;
+}
+.stl-chip::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 6px var(--c); }
+.stl-chip:hover, .stl-chip:focus-visible { color: var(--white); border-color: var(--c); outline: none; }
+
+.stl-plot { position: relative; }
+.stl-row { display: grid; grid-template-columns: var(--label-w) 1fr; align-items: center; height: 26px; transition: opacity .25s; }
+.stl-gap { margin-top: 8px; }
+.stl-label {
+  font-size: .75rem; color: var(--text); text-align: right; padding-right: .75rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .25s;
+}
+.stl-track { position: relative; height: 100%; }
+.stl-track::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px dashed #ffffff12; }
+.stl-bar {
+  position: absolute; top: 50%; height: 10px; width: 0; transform: translateY(-50%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 20%, transparent), var(--c));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--c) 40%, transparent);
+  transition: width .7s cubic-bezier(.2, .8, .2, 1), height .2s;
+}
+.stl-head {
+  position: absolute; right: -5px; top: 50%; width: 10px; height: 10px; transform: translateY(-50%);
+  border-radius: 50%; background: #fff; box-shadow: 0 0 10px 2px var(--c);
+}
+.stl-row[data-group="new"] .stl-head::after {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  border: 2px solid var(--c); animation: stl-pulse 1.8s ease-out infinite;
+}
+@keyframes stl-pulse { from { transform: scale(.6); opacity: 1; } to { transform: scale(2.2); opacity: 0; } }
+
+.stl-row.is-future .stl-label { color: #ffffff30; }
+.stl-row.is-future .stl-head { opacity: 0; }
+.skill-tl.has-hot .stl-row:not(.is-hot) { opacity: .28; }
+.stl-row.is-hot .stl-bar { height: 14px; }
+.stl-row.is-hot .stl-label { color: var(--white); }
+
+.stl-scrub {
+  position: absolute; top: -6px; bottom: 0; width: 0; pointer-events: none;
+  left: calc(var(--label-w) + (100% - var(--label-w)) * var(--p, 1));
+  border-left: 1px solid #ffffff70; opacity: .35;
+  transition: left .7s cubic-bezier(.2, .8, .2, 1), opacity .2s;
+}
+.skill-tl.scrubbing .stl-scrub { opacity: 1; }
+.skill-tl.scrubbing .stl-bar, .skill-tl.scrubbing .stl-scrub { transition-duration: .08s; }
+
+.stl-axis { position: relative; height: 1.5rem; margin: .5rem 0 0 var(--label-w); border-top: 1px solid var(--border); }
+.stl-tick {
+  position: absolute; top: .3rem; transform: translateX(-50%);
+  font-size: .68rem; color: var(--tl-dim); font-variant-numeric: tabular-nums;
+}
+.stl-tick:first-child { transform: none; }
+.stl-tick:last-child { transform: translateX(-100%); }
+.stl-hint { font-size: .7rem; color: var(--tl-dim); text-align: center; margin-top: .6rem; }
+
+.stl-tip {
+  position: absolute; left: 0; top: 0; z-index: 5; pointer-events: none;
+  display: flex; flex-direction: column; gap: .2rem; max-width: 240px;
+  background: #0a0a1af0; border: 1px solid var(--c, var(--border)); border-radius: 10px;
+  padding: .6rem .8rem; font-size: .75rem; line-height: 1.45; color: var(--text);
+  box-shadow: 0 8px 24px #00000080; opacity: 0; transition: opacity .15s;
+}
+.stl-tip.show { opacity: 1; }
+.stl-tip strong { color: var(--white); font-size: .85rem; }
+.stl-since { color: var(--c); font-weight: 600; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+@media (max-width: 680px) {
+  .skill-tl { --label-w: 112px; padding: 1rem .8rem .9rem; }
+  .stl-label { font-size: .7rem; padding-right: .5rem; }
+  .stl-year { font-size: 1.8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stl-bar, .stl-scrub { transition: none; }
+  .stl-row[data-group="new"] .stl-head::after { animation: none; }
+}
 
 /* ========== EDUCATION ========== */
 .edu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
@@ -401,7 +501,6 @@ footer {
 @media (max-width: 900px) {
   .about-grid { grid-template-columns: 1fr; gap: 2rem; }
   .skills-grid { grid-template-columns: 1fr; }
-  .charts-row { grid-template-columns: 1fr; }
 }
 @media (max-width: 680px) {
   nav { padding: 0 4%; }
